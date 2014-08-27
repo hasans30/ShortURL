@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ShortURL.com</title>
+
+<style>
+
+</style>
+
+<script>
+function returnMySQLTimestamp() {
+	return new Date().toISOString().slice(0, 19).replace('T', ' ');
+}
+</script>
+
+</head>
+
+<body>
+This is ShortURL.com index. Timestamp: <script>document.write(returnMySQLTimestamp())</script>
+</body>
+
+</html>

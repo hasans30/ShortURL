@@ -1,0 +1,23 @@
+shorturl.com
+	/
+		Input a URL, hit submit
+		Submit to /api/LONGURLHERE
+		List saved short and long URLs in LocalStorage
+		List all URLs and ShortURLs in table as links
+	/ShortURL_Id
+		Look up Long URL using ShortURL_Id from request
+		Redirect to Long URL
+
+	/api/www.a.long.domain.com/an/even/longer/path.html?an_even=GET_Params
+		Creates new record in DB with ShortURL_Id mapped to LongURL
+		Responds with ShortURL as text
+
+DB
+	LINKS
+		longurl - varchar 255
+		shorturl_id - 4 alphanumeric chars
+		date_created - date
+		username (optional) - varchar 255
+	USERS
+		username - varchar 255
+		password - varchar 255
