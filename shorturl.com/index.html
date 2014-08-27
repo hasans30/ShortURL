@@ -3,22 +3,61 @@
 
 <head>
 
-<title>ShortURL.com</title>
+<title>ShortURL - Shorten a URL! Wow! Revolutionary!</title>
+
+<link rel="stylesheet" type="text/css" href="resources/style.css">
 
 <style>
 
 </style>
 
 <script>
+
+// define the localStorage.links string for testing
+localStorage.links = JSON.stringify([
+	{ "longURL" : "http://news.yahoo.com/us/", "shortURL" : "short_yahoo" },
+	{ "longURL" : "http://espn.go.com/mlb/standings", "shortURL" : "short_espn" },
+	{ "longURL" : "http://www.google.com/intl/en_us/chrome/devices/chromecast/index.html?utm_source=chromecast.com", "shortURL" : "short_google" }
+])
+
+// if never been to site before then localStorage.
+if (typeof localStorage.links !== 'undefined') {
+    links = JSON.parse(localStorage.links);
+} else {
+	links = [];
+}
+
+function saveLinks() {
+	localStorage.links = JSON.stringify(links);
+}
+
 function returnMySQLTimestamp() {
 	return new Date().toISOString().slice(0, 19).replace('T', ' ');
 }
+
 </script>
 
 </head>
 
+
+
 <body>
-This is ShortURL.com index. Timestamp: <script>document.write(returnMySQLTimestamp())</script>
+
+<h1>ShortURL</h1>
+
+<h2>Sign In</h2>
+
+<table>
+	<th>Long URL</th><th>Short URL</th>
+	<script>
+	// Loop through Links localStorage object
+	for (var i = 0 ; i < links.length ; i++) {
+		var tr = "<tr><td><a href='" + links[i].longURL + "'>" + links[i].longURL + "</a></td><td><a href='" + links[i].shortURL + "'>" + links[i].shortURL + "</a></td></tr>"
+		document.write(tr)
+	}
+	</script>
+</table>
+
 </body>
 
 </html>
