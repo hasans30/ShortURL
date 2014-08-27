@@ -4,9 +4,16 @@ shorturl.com
 		Submit to /api/LONGURLHERE
 		List saved short and long URLs in LocalStorage
 		List all URLs and ShortURLs in table as links
+
 	/ShortURL_Id
 		Look up Long URL using ShortURL_Id from request
 		Redirect to Long URL
+
+	/signin
+		Login with username and password
+		submit to self
+		store email to session
+		redirect to /
 
 	/api/www.a.long.domain.com/an/even/longer/path.html?an_even=GET_Params
 		Creates new record in DB with ShortURL_Id mapped to LongURL
