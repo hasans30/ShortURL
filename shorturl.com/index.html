@@ -13,12 +13,17 @@
 
 <script>
 
+// testing flag
+testing = true;
+
 // Define the localStorage.links string for testing
-localStorage.links = JSON.stringify([
-	{ "longURL" : "http://news.yahoo.com/us/", "shortURL" : "short_yahoo" },
-	{ "longURL" : "http://espn.go.com/mlb/standings", "shortURL" : "short_espn" },
-	{ "longURL" : "http://www.google.com/intl/en_us/chrome/devices/chromecast/index.html?utm_source=chromecast.com", "shortURL" : "short_google" }
-])
+if (testing) {
+	localStorage.links = JSON.stringify([
+		{ "longURL" : "http://news.yahoo.com/us/", "shortURL" : "short_yahoo" },
+		{ "longURL" : "http://espn.go.com/mlb/standings", "shortURL" : "short_espn" },
+		{ "longURL" : "http://www.google.com/intl/en_us/chrome/devices/chromecast/index.html?utm_source=chromecast.com", "shortURL" : "short_google" }
+	])
+}
 
 // If never been to site before then localStorage.
 if (typeof localStorage.links !== 'undefined') {
@@ -26,8 +31,6 @@ if (typeof localStorage.links !== 'undefined') {
 } else {
 	links = [];
 }
-
-
 
 function main() {
 	longInput = document.getElementById('longInput');
@@ -43,7 +46,7 @@ function drawLinksTable() {
 	// draw links table using the links array of link objects
 	var tableRows = "<tr><th>LongURL</th><th>ShortURL</th></tr>";
 	for (var i = 0 ; i < links.length ; i++) {
-		tableRows += "<tr><td><a href='" + links[i].longURL + "'>" + links[i].longURL + "</a></td><td><a href='" + links[i].shortURL + "'>" + links[i].shortURL + "</a></td></tr>";
+		tableRows += "<tr><td><a href='" + links[i].longURL + "'>" + links[i].longURL + "</a></td><td><input type='text' class='wide' onclick='this.select()' readonly value='" + location.href + links[i].shortURL + "'></td></tr>";
 	}
 	linksTable.innerHTML = tableRows;
 }
@@ -53,55 +56,36 @@ function returnMySQLTimestamp() {
 	return new Date().toISOString().slice(0, 19).replace('T', ' ');
 }
 
+
+
 function shortURL(longURL) {
 	var xmlhttp;
 	// Long URL cannot be empty.
 	if (longURL === "" ) {
 		return;
 	} else {
+		// A protocol must be included in a link.
+		var protocolPattern = /^(https?|ftps?):\/\/.+/i;
+		if (!protocolPattern.test(longURL)) {  // if there is not a URL at the beginning
+			longURL = "http://" + longURL;
+		}
 		longURL = encodeURI(longURL);
 	}
 	var xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function() {
 		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-			// document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
 			// push to links array
-			var newLink = { "longURL" : decodeURI(longURL), "shortURL" : xmlhttp.responseText };
+			var newLink = { "longURL" : longURL, "shortURL" : xmlhttp.responseText };
 			links.unshift(newLink); 
 			// redraw links table
 			drawLinksTable();
+			// clear the input
+			longInput.value = "";
 		}
 	}
 	xmlhttp.open("GET","api/dummy.txt?long=" + longURL);
 	xmlhttp.send();
 }
-
-// function showHint(str)
-// {
-// var xmlhttp;
-// if (str.length==0)
-//   { 
-//   document.getElementById("txtHint").innerHTML="";
-//   return;
-//   }
-// if (window.XMLHttpRequest)
-//   {// code for IE7+, Firefox, Chrome, Opera, Safari
-//   xmlhttp=new XMLHttpRequest();
-//   }
-// else
-//   {// code for IE6, IE5
-//   xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-//   }
-// xmlhttp.onreadystatechange=function()
-//   {
-//   if (xmlhttp.readyState==4 && xmlhttp.status==200)
-//     {
-//     document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
-//     }
-//   }
-// xmlhttp.open("GET","gethint.asp?q="+str,true);
-// xmlhttp.send();
-// }
 
 </script>
 
@@ -114,7 +98,8 @@ function shortURL(longURL) {
 <h1>ShortURL</h1>
 
 <p>
-	<label for="long" style="width:auto;">LongURL:</label><input id="longInput" name="long" type="text" class="long" placeholder="www.a.long.domain.com/an/even/longer/path.html?and_even=GET_Params">
+	<label for="long">LongURL:</label>
+	<input id="longInput" name="long" type="text" class="widest" placeholder="www.a.long.domain.com/an/even/longer/path.html?and_even=GET_Params">
 	<button id="shortURLButton" onclick="shortURL(longInput.value)">Get ShortURL!</button>
 </p>
 
