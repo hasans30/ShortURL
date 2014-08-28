@@ -11,7 +11,7 @@ html, body {
 
 label {
 	display: inline-block;
-	width: 200px;
+	width: 150px;
 	text-align: right;
 	padding-right:5px;
 }
@@ -21,10 +21,13 @@ input {
 	margin-bottom: 5px;
 }
 
-table {  // use something like <table border='1' cellpadding='5'>
+input.long {
+	width:500px;
+}
+
+table {  /*Use something like: <table border='1' cellpadding='5'>*/
 	border-collapse:collapse;
 	text-align:left;
-	margin-bottom: 40px;
 }
 
 .large { font-size:115%; }

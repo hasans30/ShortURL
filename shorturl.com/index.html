@@ -13,14 +13,14 @@
 
 <script>
 
-// define the localStorage.links string for testing
+// Define the localStorage.links string for testing
 localStorage.links = JSON.stringify([
 	{ "longURL" : "http://news.yahoo.com/us/", "shortURL" : "short_yahoo" },
 	{ "longURL" : "http://espn.go.com/mlb/standings", "shortURL" : "short_espn" },
 	{ "longURL" : "http://www.google.com/intl/en_us/chrome/devices/chromecast/index.html?utm_source=chromecast.com", "shortURL" : "short_google" }
 ])
 
-// if never been to site before then localStorage.
+// If never been to site before then localStorage.
 if (typeof localStorage.links !== 'undefined') {
     links = JSON.parse(localStorage.links);
 } else {
@@ -31,6 +31,7 @@ function saveLinks() {
 	localStorage.links = JSON.stringify(links);
 }
 
+// Generate  timestamp to be submitted to MySQL. Could also use the MySQL function "NOW()".
 function returnMySQLTimestamp() {
 	return new Date().toISOString().slice(0, 19).replace('T', ' ');
 }
@@ -45,12 +46,14 @@ function returnMySQLTimestamp() {
 
 <h1>ShortURL</h1>
 
-<h2>Sign In</h2>
+<form>
+	<p><label for="long" style="width:auto;">LongURL:</label><input id="long" name="long" type="text" class="long" placeholder="www.a.long.domain.com/an/even/longer/path.html?and_even=GET_Params"><input type="submit" value="ShortURL it!"></p>
+</form>
 
-<table>
-	<th>Long URL</th><th>Short URL</th>
+<table border='1' cellpadding='5'>
+	<tr><th>LongURL</th><th>ShortURL</th></tr>
 	<script>
-	// Loop through Links localStorage object
+	// Loop through links localStorage object
 	for (var i = 0 ; i < links.length ; i++) {
 		var tr = "<tr><td><a href='" + links[i].longURL + "'>" + links[i].longURL + "</a></td><td><a href='" + links[i].shortURL + "'>" + links[i].shortURL + "</a></td></tr>"
 		document.write(tr)

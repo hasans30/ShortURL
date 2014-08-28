@@ -9,7 +9,7 @@ shorturl.com
 		Look up Long URL using ShortURL_Id from request
 		Redirect to Long URL
 
-	/api/www.a.long.domain.com/an/even/longer/path.html?an_even=GET_Params
+	/api/www.a.long.domain.com/an/even/longer/path.html?and_even=GET_Params
 		Checks to see if LongURL has already been shortened
 		Creates new record in DB with ShortURL_Id mapped to LongURL if needed
 		Responds with ShortURL as text
