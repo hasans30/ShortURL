@@ -27,8 +27,25 @@ if (typeof localStorage.links !== 'undefined') {
 	links = [];
 }
 
+
+
+function main() {
+	longInput = document.getElementById('longInput');
+	linksTable = document.getElementById('linksTable');
+	drawLinksTable();
+}
+
 function saveLinks() {
 	localStorage.links = JSON.stringify(links);
+}
+
+function drawLinksTable() {
+	// draw links table using the links array of link objects
+	var tableRows = "<tr><th>LongURL</th><th>ShortURL</th></tr>";
+	for (var i = 0 ; i < links.length ; i++) {
+		tableRows += "<tr><td><a href='" + links[i].longURL + "'>" + links[i].longURL + "</a></td><td><a href='" + links[i].shortURL + "'>" + links[i].shortURL + "</a></td></tr>";
+	}
+	linksTable.innerHTML = tableRows;
 }
 
 // Generate  timestamp to be submitted to MySQL. Could also use the MySQL function "NOW()".
@@ -36,30 +53,72 @@ function returnMySQLTimestamp() {
 	return new Date().toISOString().slice(0, 19).replace('T', ' ');
 }
 
+function shortURL(longURL) {
+	var xmlhttp;
+	// Long URL cannot be empty.
+	if (longURL === "" ) {
+		return;
+	} else {
+		longURL = encodeURI(longURL);
+	}
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function() {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+			// document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+			// push to links array
+			var newLink = { "longURL" : decodeURI(longURL), "shortURL" : xmlhttp.responseText };
+			links.unshift(newLink); 
+			// redraw links table
+			drawLinksTable();
+		}
+	}
+	xmlhttp.open("GET","api/dummy.txt?long=" + longURL);
+	xmlhttp.send();
+}
+
+// function showHint(str)
+// {
+// var xmlhttp;
+// if (str.length==0)
+//   { 
+//   document.getElementById("txtHint").innerHTML="";
+//   return;
+//   }
+// if (window.XMLHttpRequest)
+//   {// code for IE7+, Firefox, Chrome, Opera, Safari
+//   xmlhttp=new XMLHttpRequest();
+//   }
+// else
+//   {// code for IE6, IE5
+//   xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+//   }
+// xmlhttp.onreadystatechange=function()
+//   {
+//   if (xmlhttp.readyState==4 && xmlhttp.status==200)
+//     {
+//     document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+//     }
+//   }
+// xmlhttp.open("GET","gethint.asp?q="+str,true);
+// xmlhttp.send();
+// }
+
 </script>
 
 </head>
 
 
 
-<body>
+<body onload="main();">
 
 <h1>ShortURL</h1>
 
-<form>
-	<p><label for="long" style="width:auto;">LongURL:</label><input id="long" name="long" type="text" class="long" placeholder="www.a.long.domain.com/an/even/longer/path.html?and_even=GET_Params"><input type="submit" value="ShortURL it!"></p>
-</form>
+<p>
+	<label for="long" style="width:auto;">LongURL:</label><input id="longInput" name="long" type="text" class="long" placeholder="www.a.long.domain.com/an/even/longer/path.html?and_even=GET_Params">
+	<button id="shortURLButton" onclick="shortURL(longInput.value)">Get ShortURL!</button>
+</p>
 
-<table border='1' cellpadding='5'>
-	<tr><th>LongURL</th><th>ShortURL</th></tr>
-	<script>
-	// Loop through links localStorage object
-	for (var i = 0 ; i < links.length ; i++) {
-		var tr = "<tr><td><a href='" + links[i].longURL + "'>" + links[i].longURL + "</a></td><td><a href='" + links[i].shortURL + "'>" + links[i].shortURL + "</a></td></tr>"
-		document.write(tr)
-	}
-	</script>
-</table>
+<table border='1' cellpadding='5' id="linksTable"></table>
 
 </body>
 
