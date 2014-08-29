@@ -5,7 +5,7 @@
 
 <title>ShortURL - Shorten a URL! Wow! Revolutionary!</title>
 
-<link rel="stylesheet" type="text/css" href="resources/style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 <style>
 
@@ -46,7 +46,7 @@ function drawLinksTable() {
 	// draw links table using the links array of link objects
 	var tableRows = "<tr><th>LongURL</th><th>ShortURL</th></tr>";
 	for (var i = 0 ; i < links.length ; i++) {
-		tableRows += "<tr><td><a href='" + links[i].longURL + "'>" + links[i].longURL + "</a></td><td><input type='text' class='wide' onclick='this.select()' readonly value='" + location.href + links[i].shortURL + "'></td></tr>";
+		tableRows += "<tr><td><a href='" + links[i].longURL + "' target='blank'>" + links[i].longURL + "</a></td><td><input type='text' class='wide' onclick='this.select()' readonly value='" + location.href + links[i].shortURL + "'></td></tr>";
 	}
 	linksTable.innerHTML = tableRows;
 }
@@ -76,7 +76,7 @@ function shortURL(longURL) {
 		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 			// push to links array
 			var newLink = { "longURL" : longURL, "shortURL" : xmlhttp.responseText };
-			links.unshift(newLink); 
+			links.unshift(newLink);
 			// redraw links table
 			drawLinksTable();
 			// clear the input
