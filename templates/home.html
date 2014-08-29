@@ -83,7 +83,7 @@ function shortURL(longURL) {
 			longInput.value = "";
 		}
 	}
-	xmlhttp.open("GET","api/dummy.txt?long=" + longURL);
+	xmlhttp.open("GET","api/" + longURL);
 	xmlhttp.send();
 }
 
