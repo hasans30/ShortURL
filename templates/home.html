@@ -13,16 +13,12 @@
 
 <script>
 
-console.log(localStorage);
-
 // If never been to site before then localStorage.
 if (typeof localStorage.links !== 'undefined' || localStorage.links === "") {
 	links = JSON.parse(localStorage.links);
 } else {
 	links = [];
 }
-
-console.log(links);
 
 function main() {
 	longInput = document.getElementById('longInput');
