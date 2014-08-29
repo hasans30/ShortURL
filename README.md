@@ -13,9 +13,9 @@ Run the app
 Use the app
 -----------
 
-[localhost:5000](localhost:5000)
+[localhost:5000](http://localhost:5000)
 
 Use the API
 -----------
 
-[localhost:5000/api/https://www.ridiculously.long.url.com/path/to/file.html](localhost:5000/api/https://www.ridiculously.long.url.com/path/to/file.html)
+[localhost:5000/api/https://www.ridiculously.long.url.com/path/to/file.html](http://localhost:5000/api/https://www.ridiculously.long.url.com/path/to/file.html)
