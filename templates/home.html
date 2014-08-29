@@ -13,24 +13,16 @@
 
 <script>
 
-// testing flag
-testing = true;
-
-// Define the localStorage.links string for testing
-if (testing) {
-	localStorage.links = JSON.stringify([
-		{ "longURL" : "http://news.yahoo.com/us/", "shortURL" : "short_yahoo" },
-		{ "longURL" : "http://espn.go.com/mlb/standings", "shortURL" : "short_espn" },
-		{ "longURL" : "http://www.google.com/intl/en_us/chrome/devices/chromecast/index.html?utm_source=chromecast.com", "shortURL" : "short_google" }
-	])
-}
+console.log(localStorage);
 
 // If never been to site before then localStorage.
-if (typeof localStorage.links !== 'undefined') {
+if (typeof localStorage.links !== 'undefined' || localStorage.links === "") {
 	links = JSON.parse(localStorage.links);
 } else {
 	links = [];
 }
+
+console.log(links);
 
 function main() {
 	longInput = document.getElementById('longInput');
@@ -51,13 +43,6 @@ function drawLinksTable() {
 	linksTable.innerHTML = tableRows;
 }
 
-// Generate  timestamp to be submitted to MySQL. Could also use the MySQL function "NOW()".
-function returnMySQLTimestamp() {
-	return new Date().toISOString().slice(0, 19).replace('T', ' ');
-}
-
-
-
 function shortURL(longURL) {
 	var xmlhttp;
 	// Long URL cannot be empty.
@@ -77,6 +62,7 @@ function shortURL(longURL) {
 			// push to links array
 			var newLink = { "longURL" : longURL, "shortURL" : xmlhttp.responseText };
 			links.unshift(newLink);
+			saveLinks();
 			// redraw links table
 			drawLinksTable();
 			// clear the input
