@@ -8,6 +8,12 @@ Run the app
     $ cd sandbox
     $ git clone git@github.com:atheiman/ShortURL.git
     $ cd ShortURL
+    $ pip install Flask
+    $ pip install flask-sqlalchemy
+    $ python
+    >>> from shorturl import db
+    >>> db.create_all()
+    >>> quit()
     $ python shorturl.py
 
 Use the app
