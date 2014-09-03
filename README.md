@@ -10,10 +10,7 @@ Run the app
     $ cd ShortURL
     $ pip install Flask
     $ pip install flask-sqlalchemy
-    $ python
-    >>> from shorturl import db
-    >>> db.create_all()
-    >>> quit()
+    $ python -c "from shorturl import db; db.drop_all(); db.create_all()"
     $ python shorturl.py
 
 Use the app
