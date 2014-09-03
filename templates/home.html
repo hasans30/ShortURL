@@ -5,7 +5,10 @@
 {% block content %}
 	<p>
 		<label for="long">LongURL:</label>
-		<input id="longInput" name="long" type="text" class="widest" placeholder="www.a.long.domain.com/an/even/longer/path.html?and_even=GET_Params">
+		<input id="longInput" name="long" type="text" class="widest" placeholder="www.a.long.domain.com/an/even/longer/path.html">
 		<button id="shortURLButton" onclick="shortURL(longInput.value)">Get ShortURL!</button>
 	</p>
+
+	<table border='1' cellpadding='5' id="linksTable"></table>
+
 {% endblock %}
