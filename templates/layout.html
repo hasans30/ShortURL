@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+	{% block head %}
+	{% if title %}
+	<title>{{title}} - ShortURL</title>
+	{% else %}
+	<title>ShortURL</title>
+	{% endif %}
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<script src="{{ url_for('static', filename='script.js') }}"></script>
+	{% endblock %}
+</head>
+
+<body onload="main();">
+
+	<div id="main">
+	
+		<header>
+			<h1><span onclick="window.location.assign('{{ url_for('home') }}')">ShortURL</span></h1>
+		</header>
+		
+		<div id="content">{% block content %}{% endblock %}</div>
+		
+	</div>
+	
+</body>
+
+</html>
